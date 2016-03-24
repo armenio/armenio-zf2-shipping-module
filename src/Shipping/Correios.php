@@ -1,12 +1,12 @@
 <?php
 namespace Armenio\Shipping\Shipping;
-use Aircode\Shipping\Shipping;
+use Armenio\Shipping\Shipping;
 
 use Zend\Http\Client;
 use Zend\Http\Client\Adapter\Curl;
 use Zend\Json\Json;
 
-use Aircode\Currency as ArmenioCurrency;
+use Armenio\Currency as ArmenioCurrency;
 
 /**
 * Correios

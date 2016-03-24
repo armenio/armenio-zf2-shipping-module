@@ -1,6 +1,6 @@
 <?php
 namespace Armenio\Shipping\Shipping\Correios;
-use Aircode\Shipping\Shipping\Correios;
+use Armenio\Shipping\Shipping\Correios;
 /**
 * SedexHoje
 * 
