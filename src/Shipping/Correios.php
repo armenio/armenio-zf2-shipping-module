@@ -6,7 +6,7 @@ use Zend\Http\Client;
 use Zend\Http\Client\Adapter\Curl;
 use Zend\Json\Json;
 
-use Armenio\Currency as ArmenioCurrency;
+use Armenio\Currency\Currency as ArmenioCurrency;
 
 /**
 * Correios
