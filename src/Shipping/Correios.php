@@ -96,8 +96,8 @@ class Correios extends Shipping
 		$result = array();
 		
 		try{
-			$uri = 'http://aircode.com.br/webservice/correios/frete';
-			$client = new Client($uri);
+			$url = 'http://aircode.com.br/webservice/correios/frete';
+			$client = new Client($url);
 			$client->setAdapter(new Curl());
 			$client->setMethod('POST');
 			$client->setOptions(array(
