@@ -1,26 +1,30 @@
 <?php
-namespace Armenio\Shipping\Shipping\Correios;
-use Armenio\Shipping\Shipping\Correios;
+/**
+ * Rafael Armenio <rafael.armenio@gmail.com>
+ *
+ * @link http://github.com/armenio for the source repository
+ */
+ 
+namespace Armenio\Shipping\Correios;
+use Armenio\Shipping\Correios\AbstractCorreios;
 /**
 * Sedex10
 * 
 * Retrieves delivery cost from Correios
 */
-class Sedex10 extends Correios
+class Sedex10 extends AbstractCorreios
 {
-	public $serviceCode = '40215';
+	protected $serviceCode = '40215';
 
 	/**
-	* __construct
+	* setOptions
 	* 
 	* @param array $options
 	*/
-	public function __construct($options = array())
+	public function setOptions($options = array())
 	{
-		$userParam = 'servico';
-		$options[$userParam] = $this->serviceCode;
+		$options['servico'] = $this->serviceCode;
 
-		parent::__construct($options);
-	}
-   
+		return parent::setOptions($options);
+	}   
 }

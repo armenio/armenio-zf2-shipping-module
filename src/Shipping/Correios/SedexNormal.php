@@ -8,13 +8,13 @@
 namespace Armenio\Shipping\Correios;
 use Armenio\Shipping\Correios\AbstractCorreios;
 /**
-* SedexHoje
+* SedexNormal
 * 
 * Retrieves delivery cost from Correios
 */
-class SedexHoje extends AbstractCorreios
+class SedexNormal extends AbstractCorreios
 {
-	protected $serviceCode = '40290';
+	protected $serviceCode = '40010';
 
 	/**
 	* setOptions
