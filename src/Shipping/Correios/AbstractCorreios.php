@@ -13,8 +13,6 @@ use Zend\Http\Client;
 use Zend\Http\Client\Adapter\Curl;
 use Zend\Json\Json;
 
-use Armenio\Currency\Currency as ArmenioCurrency;
-
 /**
 * Correios
 * 
@@ -95,6 +93,14 @@ class AbstractCorreios extends AbstractShipping
 
 		return $this->credentials;
 	}
+
+	protected function formatNumber($number)
+	{
+		$formatted = str_replace('.', '', $number);
+		$formatted = str_replace(',', '.', $formatted);
+		
+		return $formatted;
+	}
 	
 	/**
 	* Returns shipping's cost
@@ -125,7 +131,7 @@ class AbstractCorreios extends AbstractShipping
 			$result = Json::decode($body, 1);
 
 			if( ! empty($result['shipping_price']) ){
-				$result['shipping_price'] = ArmenioCurrency::normalize($result['shipping_price']);
+				$result['shipping_price'] = $this->formatNumber($result['shipping_price']);
 			}
 
 			$isException = false;
