@@ -11,7 +11,7 @@ use Armenio\Shipping\AbstractShipping;
 
 use Zend\Http\Client;
 use Zend\Http\Client\Adapter\Curl;
-use Zend\Json\Json;
+use Zend\Json;
 
 /**
 * Correios
@@ -60,7 +60,7 @@ class AbstractCorreios extends AbstractShipping
 	public function setCredentials($jsonStringCredentials = '')
 	{
 		try{
-			$options = Json::decode($jsonStringCredentials, 1);
+			$options = Json\Json::decode($jsonStringCredentials, 1);
 			foreach ( $options as $optionKey => $optionValue ) {
 				if( isset( $this->credentials[$optionKey] ) ){
 					$this->credentials[$optionKey] = $optionValue;
@@ -68,13 +68,13 @@ class AbstractCorreios extends AbstractShipping
 			}
 
 			$isException = false;
-		} catch (\Zend\Json\Exception\RuntimeException $e) {
+		} catch (Json\Exception\RuntimeException $e) {
 			$isException = true;
-		} catch (\Zend\Json\Exception\RecursionException $e2) {
+		} catch (Json\Exception\RecursionException $e2) {
 			$isException = true;
-		} catch (\Zend\Json\Exception\InvalidArgumentException $e3) {
+		} catch (Json\Exception\InvalidArgumentException $e3) {
 			$isException = true;
-		} catch (\Zend\Json\Exception\BadMethodCallException $e4) {
+		} catch (Json\Exception\BadMethodCallException $e4) {
 			$isException = true;
 		}
 
@@ -128,7 +128,7 @@ class AbstractCorreios extends AbstractShipping
 			
 			$body = $response->getBody();
 			
-			$result = Json::decode($body, 1);
+			$result = Json\Json::decode($body, 1);
 
 			if( ! empty($result['shipping_price']) ){
 				$result['shipping_price'] = $this->formatNumber($result['shipping_price']);
@@ -139,13 +139,13 @@ class AbstractCorreios extends AbstractShipping
 			$isException = true;
 		} catch (\Zend\Http\Client\Adapter\Exception\RuntimeException $e){
 			$isException = true;
-		} catch (\Zend\Json\Exception\RuntimeException $e) {
+		} catch (Json\Exception\RuntimeException $e) {
 			$isException = true;
-		} catch (\Zend\Json\Exception\RecursionException $e2) {
+		} catch (Json\Exception\RecursionException $e2) {
 			$isException = true;
-		} catch (\Zend\Json\Exception\InvalidArgumentException $e3) {
+		} catch (Json\Exception\InvalidArgumentException $e3) {
 			$isException = true;
-		} catch (\Zend\Json\Exception\BadMethodCallException $e4) {
+		} catch (Json\Exception\BadMethodCallException $e4) {
 			$isException = true;
 		}
 

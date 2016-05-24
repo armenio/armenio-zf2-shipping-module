@@ -19,12 +19,9 @@
 	"require": {
 		"zendframework/zendframework": "2.*"
 	},
-	"autoload": {
-		"psr-0": {
-			"Armenio\\Shipping\\": "src"
-		},
-		"classmap": [
-			"Module.php"
-		]
-	}
+    "autoload": {
+        "psr-4": {
+            "Armenio\\Shipping\\": "src/"
+        }
+    }
 }
