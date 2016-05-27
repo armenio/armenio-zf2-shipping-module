@@ -1,1 +1,1 @@
-# armenio-shipping
+# armenio-zf2-shipping-module
