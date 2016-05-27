@@ -1,5 +1,5 @@
 {
-	"name": "armenio/armenio-shipping",
+	"name": "armenio/armenio-zf2-shipping-module",
 	"description": "Shipping library",
 	"type": "library",
 	"keywords": [
@@ -8,7 +8,7 @@
 		"zf2",
 		"armenio"
 	],
-	"homepage": "https://github.com/armenio/armenio-shipping",
+	"homepage": "https://github.com/armenio/armenio-zf2-shipping-module",
 	"license": "MIT",
 	"authors": [
 		{
