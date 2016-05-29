@@ -21,8 +21,6 @@ use Zend\Json;
 class AbstractCorreios extends AbstractShipping
 {	
 	protected $options = array(
-		// 'login' => '',
-		// 'senha' => '',
 		'servico' => '',
 		'origem' => '',
 		'destino' => '',
