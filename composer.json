@@ -1,6 +1,6 @@
 {
 	"name": "armenio/armenio-zf2-shipping-module",
-	"description": "Shipping library",
+	"description": "Shipping Module for Zend Framework 2",
 	"type": "library",
 	"keywords": [
 		"shipping",
