@@ -21,7 +21,7 @@ class SedexHoje extends AbstractCorreios
 	* 
 	* @param array $options
 	*/
-	public function setOptions($options = array())
+	public function setOptions($options = [])
 	{
 		$options['servico'] = $this->serviceCode;
 

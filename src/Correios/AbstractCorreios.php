@@ -20,7 +20,7 @@ use Zend\Json;
 */
 class AbstractCorreios extends AbstractShipping
 {	
-	protected $options = array(
+	protected $options = [
 		'servico' => '',
 		'origem' => '',
 		'destino' => '',
@@ -28,14 +28,14 @@ class AbstractCorreios extends AbstractShipping
 		'altura' => '',
 		'largura' => '',
 		'comprimento' => '',
-	);
+	];
 
-	protected $credentials = array(
+	protected $credentials = [
 		'login' => '',
 		'senha' => '',
-	);
+	];
 
-	public function setOptions($options = array())
+	public function setOptions($options = [])
 	{
 		foreach ( $options as $optionKey => $optionValue ) {
 			if( isset( $this->options[$optionKey] ) ){
@@ -107,18 +107,18 @@ class AbstractCorreios extends AbstractShipping
 	*/
 	public function getShippingDetails()
 	{
-		$result = array();
+		$result = [];
 		
 		try{
 			$url = 'http://aircode.com.br/webservice/correios/frete';
 			$client = new Client($url);
 			$client->setAdapter(new Curl());
 			$client->setMethod('POST');
-			$client->setOptions(array(
-				'curloptions' => array(
+			$client->setOptions([
+				'curloptions' => [
 					CURLOPT_HEADER => false,
-				)
-			));
+				]
+			]);
 			$client->setParameterPost($this->credentials+$this->options);
 
 			
