@@ -14,7 +14,7 @@ use Armenio\Shipping\Correios\AbstractCorreios;
 */
 class SedexNormal extends AbstractCorreios
 {
-	protected $serviceCode = '40010';
+	protected $serviceCode = '04014';
 
 	/**
 	* setOptions

@@ -4,153 +4,162 @@
  *
  * @link http://github.com/armenio for the source repository
  */
- 
+
 namespace Armenio\Shipping\Correios;
 
 use Armenio\Shipping\AbstractShipping;
-
+use SimpleXMLElement;
 use Zend\Http\Client;
 use Zend\Http\Client\Adapter\Curl;
 use Zend\Json;
 
 /**
-* Correios
-* 
-* Retrieves shipping cost from Correios
-*/
+ * Correios
+ *
+ * Retrieves shipping cost from Correios
+ */
 class AbstractCorreios extends AbstractShipping
-{	
-	protected $options = [
-		'servico' => '',
-		'origem' => '',
-		'destino' => '',
-		'peso' => '',
-		'altura' => '',
-		'largura' => '',
-		'comprimento' => '',
-	];
+{
+    protected $options = [
+        'nCdServico' => '',
+        'sCepOrigem' => '',
+        'sCepDestino' => '',
+        'nVlPeso' => '',
+        'nCdFormato' => 1,
+        'nVlComprimento' => 0,
+        'nVlAltura' => 0,
+        'nVlLargura' => 0,
+        'nVlDiametro' => 0,
+        'sCdMaoPropria' => 'N',
+        'nVlValorDeclarado' => 0,
+        'sCdAvisoRecebimento' => 'N',
+        'strRetorno' => 'XML',
+    ];
 
-	protected $credentials = [
-		'login' => '',
-		'senha' => '',
-	];
+    protected $params = [
+        'login' => 'nCdEmpresa',
+        'senha' => 'sDsSenha',
+        'servico' => 'nCdServico',
+        'origem' => 'sCepOrigem',
+        'destino' => 'sCepDestino',
+        'peso' => 'nVlPeso',
+        'altura' => 'nVlAltura',
+        'largura' => 'nVlLargura',
+        'comprimento' => 'nVlComprimento',
+    ];
 
-	public function setOptions($options = [])
-	{
-		foreach ( $options as $optionKey => $optionValue ) {
-			if( isset( $this->options[$optionKey] ) ){
-				$this->options[$optionKey] = $optionValue;
-			}
-		}
+    protected $credentials = [
+        'nCdEmpresa' => '',
+        'sDsSenha' => '',
+    ];
 
-		return $this;
-	}
+    public function setOptions($options = [])
+    {
+        foreach ($options as $optionKey => $optionValue) {
+            if (isset($this->params[$optionKey])) {
+                if (isset($this->options[$this->params[$optionKey]])) {
+                    $this->options[$this->params[$optionKey]] = $optionValue;
+                }
+            }
+        }
 
-	public function getOptions($option = null)
-	{
-		if( $option !== null ){
-			return $this->options[$option];
-		}
+        return $this;
+    }
 
-		return $this->options;
-	}
+    public function getOptions($option = null)
+    {
+        if ($option !== null) {
+            return $this->options[$option];
+        }
 
-	public function setCredentials($jsonStringCredentials = '')
-	{
-		try{
-			$options = Json\Json::decode($jsonStringCredentials, 1);
-			foreach ( $options as $optionKey => $optionValue ) {
-				if( isset( $this->credentials[$optionKey] ) ){
-					$this->credentials[$optionKey] = $optionValue;
-				}
-			}
+        return $this->options;
+    }
 
-			$isException = false;
-		} catch (Json\Exception\RuntimeException $e) {
-			$isException = true;
-		} catch (Json\Exception\RecursionException $e2) {
-			$isException = true;
-		} catch (Json\Exception\InvalidArgumentException $e3) {
-			$isException = true;
-		} catch (Json\Exception\BadMethodCallException $e4) {
-			$isException = true;
-		}
+    public function setCredentials($jsonStringCredentials = '')
+    {
+        try {
+            $options = Json\Json::decode($jsonStringCredentials, 1);
+            foreach ($options as $optionKey => $optionValue) {
+                if (isset($this->params[$optionKey])) {
+                    if (isset($this->credentials[$this->params[$optionKey]])) {
+                        $this->credentials[$this->params[$optionKey]] = $optionValue;
+                    }
+                }
+            }
 
-		if( $isException === true ){
-			//código em caso de problemas no decode
-		}
+            $isException = false;
+        } catch (Json\Exception\RecursionException $e2) {
+            $isException = true;
+        } catch (Json\Exception\RuntimeException $e) {
+            $isException = true;
+        } catch (Json\Exception\InvalidArgumentException $e3) {
+            $isException = true;
+        } catch (Json\Exception\BadMethodCallException $e4) {
+            $isException = true;
+        }
 
-		return $this;
-	}
+        if ($isException === true) {
+            //código em caso de problemas no decode
+        }
 
-	public function getCredentials($credential = null)
-	{
-		if( $credential !== null ){
-			return $this->credentials[$credential];
-		}
+        return $this;
+    }
 
-		return $this->credentials;
-	}
+    public function getCredentials($credential = null)
+    {
+        if ($credential !== null) {
+            return $this->credentials[$credential];
+        }
 
-	protected function formatNumber($number)
-	{
-		$formatted = str_replace('.', '', $number);
-		$formatted = str_replace(',', '.', $formatted);
-		
-		return $formatted;
-	}
-	
-	/**
-	* Returns shipping's cost
-	* 
-	* @return float
-	*/
-	public function getShippingDetails()
-	{
-		$result = [];
-		
-		try{
-			$url = 'http://aircode.com.br/webservice/correios/frete';
-			$client = new Client($url);
-			$client->setAdapter(new Curl());
-			$client->setMethod('POST');
-			$client->setOptions([
-				'curloptions' => [
-					CURLOPT_HEADER => false,
-				]
-			]);
-			$client->setParameterPost($this->credentials+$this->options);
+        return $this->credentials;
+    }
 
-			
-			$response = $client->send();
-			
-			$body = $response->getBody();
-			
-			$result = Json\Json::decode($body, 1);
+    protected function formatNumber($number)
+    {
+        $formatted = str_replace('.', '', $number);
+        $formatted = str_replace(',', '.', $formatted);
 
-			if( ! empty($result['shipping_price']) ){
-				$result['shipping_price'] = $this->formatNumber($result['shipping_price']);
-			}
+        return $formatted;
+    }
 
-			$isException = false;
-		} catch (\Zend\Http\Exception\RuntimeException $e){
-			$isException = true;
-		} catch (\Zend\Http\Client\Adapter\Exception\RuntimeException $e){
-			$isException = true;
-		} catch (Json\Exception\RuntimeException $e) {
-			$isException = true;
-		} catch (Json\Exception\RecursionException $e2) {
-			$isException = true;
-		} catch (Json\Exception\InvalidArgumentException $e3) {
-			$isException = true;
-		} catch (Json\Exception\BadMethodCallException $e4) {
-			$isException = true;
-		}
+    /**
+     * Returns shipping's cost
+     *
+     * @return array
+     */
+    public function getShippingDetails()
+    {
+        $url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx';
+        $client = new Client($url);
+        $client->setAdapter(new Curl());
+        $client->setMethod('GET');
+        $client->setOptions([
+            'curloptions' => [
+                CURLOPT_HEADER => false,
+            ]
+        ]);
+        $client->setParameterGet($this->credentials + $this->options);
 
-		if( $isException === true ){
-			//código em caso de problemas no decode
-		}
+        $response = $client->send();
 
-		return $result;
-	}
+        $body = $response->getBody();
+
+        $shippingDetails = new SimpleXMLElement($body);
+
+        $service = $shippingDetails->cServico;
+
+        if (empty($service->Erro)) {
+            $result = [
+                'service_code' => $this->options[$this->params['servico']],
+                'shipping_price' => $this->formatNumber((string)$service->Valor),
+                'shipping_time' => (int)$service->PrazoEntrega
+            ];
+        } else {
+            $result = [
+                'error' => print_r($service->Erro, true)
+            ];
+        }
+
+        return $result;
+    }
 }

@@ -14,7 +14,7 @@ use Armenio\Shipping\Correios\AbstractCorreios;
 */
 class Pac extends AbstractCorreios
 {
-	protected $serviceCode = '41106';
+	protected $serviceCode = '04510';
 	
 	/**
 	* setOptions
