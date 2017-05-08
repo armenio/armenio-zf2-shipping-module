@@ -152,11 +152,11 @@ class AbstractCorreios extends AbstractShipping
             $result = [
                 'service_code' => $this->options[$this->params['servico']],
                 'shipping_price' => $this->formatNumber((string)$service->Valor),
-                'shipping_time' => (int)$service->PrazoEntrega
+                'shipping_time' => (int)$service->PrazoEntrega,
             ];
         } else {
             $result = [
-                'error' => print_r($service->Erro, true)
+                'error' => print_r($service->Erro, true),
             ];
         }
 
