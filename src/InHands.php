@@ -31,7 +31,7 @@ class InHands extends AbstractShipping
     /**
      * @var array
      */
-    protected $credentials = [
+    protected $configs = [
 
     ];
 
@@ -64,16 +64,16 @@ class InHands extends AbstractShipping
     }
 
     /**
-     * @param string $jsonStringCredentials
+     * @param string $jsonStringConfigs
      * @return $this
      */
-    public function setCredentials($jsonStringCredentials = '')
+    public function setConfigs($jsonStringConfigs = '')
     {
         try {
-            $options = Json\Json::decode($jsonStringCredentials, 1);
+            $options = Json\Json::decode($jsonStringConfigs, 1);
             foreach ($options as $optionKey => $optionValue) {
-                if (isset($this->credentials[$optionKey])) {
-                    $this->credentials[$optionKey] = $optionValue;
+                if (isset($this->configs[$optionKey])) {
+                    $this->configs[$optionKey] = $optionValue;
                 }
             }
 
@@ -99,13 +99,13 @@ class InHands extends AbstractShipping
      * @param null $credential
      * @return array|mixed
      */
-    public function getCredentials($credential = null)
+    public function getConfigs($credential = null)
     {
         if ($credential !== null) {
-            return $this->credentials[$credential];
+            return $this->configs[$credential];
         }
 
-        return $this->credentials;
+        return $this->configs;
     }
 
     /**

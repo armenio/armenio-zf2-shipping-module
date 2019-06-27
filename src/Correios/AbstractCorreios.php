@@ -48,7 +48,7 @@ class AbstractCorreios extends AbstractShipping
         'comprimento' => 'nVlComprimento',
     ];
 
-    protected $credentials = [
+    protected $configs = [
         'nCdEmpresa' => '',
         'sDsSenha' => '',
     ];
@@ -75,14 +75,14 @@ class AbstractCorreios extends AbstractShipping
         return $this->options;
     }
 
-    public function setCredentials($jsonStringCredentials = '')
+    public function setConfigs($jsonStringConfigs = '')
     {
         try {
-            $options = Json\Json::decode($jsonStringCredentials, 1);
+            $options = Json\Json::decode($jsonStringConfigs, 1);
             foreach ($options as $optionKey => $optionValue) {
                 if (isset($this->params[$optionKey])) {
-                    if (isset($this->credentials[$this->params[$optionKey]])) {
-                        $this->credentials[$this->params[$optionKey]] = $optionValue;
+                    if (isset($this->configs[$this->params[$optionKey]])) {
+                        $this->configs[$this->params[$optionKey]] = $optionValue;
                     }
                 }
             }
@@ -105,13 +105,13 @@ class AbstractCorreios extends AbstractShipping
         return $this;
     }
 
-    public function getCredentials($credential = null)
+    public function getConfigs($credential = null)
     {
         if ($credential !== null) {
-            return $this->credentials[$credential];
+            return $this->configs[$credential];
         }
 
-        return $this->credentials;
+        return $this->configs;
     }
 
     protected function formatNumber($number)
@@ -138,7 +138,7 @@ class AbstractCorreios extends AbstractShipping
                 CURLOPT_HEADER => false,
             ]
         ]);
-        $client->setParameterGet($this->credentials + $this->options);
+        $client->setParameterGet($this->configs + $this->options);
 
         $response = $client->send();
 

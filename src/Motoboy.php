@@ -31,7 +31,7 @@ class Motoboy extends AbstractShipping
     /**
      * @var array
      */
-    protected $credentials = [
+    protected $configs = [
         'config' => [],
     ];
 
@@ -64,16 +64,16 @@ class Motoboy extends AbstractShipping
     }
 
     /**
-     * @param string $jsonStringCredentials
+     * @param string $jsonStringConfigs
      * @return $this
      */
-    public function setCredentials($jsonStringCredentials = '')
+    public function setConfigs($jsonStringConfigs = '')
     {
         try {
-            $options = Json\Json::decode($jsonStringCredentials, 1);
+            $options = Json\Json::decode($jsonStringConfigs, 1);
             foreach ($options as $optionKey => $optionValue) {
-                if (isset($this->credentials[$optionKey])) {
-                    $this->credentials[$optionKey] = $optionValue;
+                if (isset($this->configs[$optionKey])) {
+                    $this->configs[$optionKey] = $optionValue;
                 }
             }
 
@@ -99,13 +99,13 @@ class Motoboy extends AbstractShipping
      * @param null $credential
      * @return array|mixed
      */
-    public function getCredentials($credential = null)
+    public function getConfigs($credential = null)
     {
         if ($credential !== null) {
-            return $this->credentials[$credential];
+            return $this->configs[$credential];
         }
 
-        return $this->credentials;
+        return $this->configs;
     }
 
     /**
@@ -127,7 +127,7 @@ class Motoboy extends AbstractShipping
      */
     public function getShippingDetails()
     {
-        foreach ($this->credentials['config'] as $item) {
+        foreach ($this->configs['config'] as $item) {
 
             if ($this->options['destino'] >= $item['min'] && $this->options['destino'] <= $item['max']) {
                 $result = [
