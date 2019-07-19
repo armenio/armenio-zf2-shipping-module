@@ -136,27 +136,39 @@ class AbstractCorreios extends AbstractShipping
         $client->setOptions([
             'curloptions' => [
                 CURLOPT_HEADER => false,
+                CURLOPT_CONNECTTIMEOUT => 0,
+                CURLOPT_TIMEOUT => 60,
             ]
         ]);
         $client->setParameterGet($this->configs + $this->options);
 
-        $response = $client->send();
+        try {
+            $response = $client->send();
 
-        $body = $response->getBody();
+            $body = $response->getBody();
 
-        $shippingDetails = new SimpleXMLElement($body);
+            $shippingDetails = new SimpleXMLElement($body);
 
-        $service = $shippingDetails->cServico;
+            $service = $shippingDetails->cServico;
 
-        if (empty($service->Erro)) {
+            if (empty($service->Erro)) {
+                $result = [
+                    'service_code' => $this->options[$this->params['servico']],
+                    'shipping_price' => $this->formatNumber((string)$service->Valor),
+                    'shipping_time' => (int)$service->PrazoEntrega,
+                ];
+            } else {
+                $result = [
+                    'error' => print_r($service->Erro, true),
+                ];
+            }
+        } catch (Client\Adapter\Exception\TimeoutException $e) {
             $result = [
-                'service_code' => $this->options[$this->params['servico']],
-                'shipping_price' => $this->formatNumber((string)$service->Valor),
-                'shipping_time' => (int)$service->PrazoEntrega,
+                'error' => $e->getMessage(),
             ];
-        } else {
+        } catch (Client\Adapter\Exception\RuntimeException $e) {
             $result = [
-                'error' => print_r($service->Erro, true),
+                'error' => $e->getMessage(),
             ];
         }
 
