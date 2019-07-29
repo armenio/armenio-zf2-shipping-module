@@ -10,9 +10,8 @@ namespace Armenio\Shipping;
 use Zend\Json;
 
 /**
- * InHands
- *
- * Retrieves shipping cost from Correios
+ * Class InHands
+ * @package Armenio\Shipping
  */
 class InHands extends AbstractShipping
 {
@@ -41,9 +40,11 @@ class InHands extends AbstractShipping
      */
     public function setOptions($options = [])
     {
-        foreach ($options as $optionKey => $optionValue) {
-            if (isset($this->options[$optionKey])) {
-                $this->options[$optionKey] = $optionValue;
+        if (is_array($options) && !empty($options)) {
+            foreach ($options as $optionKey => $optionValue) {
+                if (isset($this->options[$optionKey])) {
+                    $this->options[$optionKey] = $optionValue;
+                }
             }
         }
 
@@ -64,45 +65,44 @@ class InHands extends AbstractShipping
     }
 
     /**
-     * @param string $jsonStringConfigs
+     * @param string|array $configs
      * @return $this
      */
-    public function setConfigs($jsonStringConfigs = '')
+    public function setConfigs($configs)
     {
-        try {
-            $options = Json\Json::decode($jsonStringConfigs, 1);
-            foreach ($options as $optionKey => $optionValue) {
-                if (isset($this->configs[$optionKey])) {
-                    $this->configs[$optionKey] = $optionValue;
-                }
-            }
+        if (is_string($configs)) {
+            try {
+                $configs = Json\Json::decode($configs, 1);
+            } catch (Json\Exception\RecursionException $e2) {
 
-            $isException = false;
-        } catch (Json\Exception\RecursionException $e2) {
-            $isException = true;
-        } catch (Json\Exception\RuntimeException $e) {
-            $isException = true;
-        } catch (Json\Exception\InvalidArgumentException $e3) {
-            $isException = true;
-        } catch (Json\Exception\BadMethodCallException $e4) {
-            $isException = true;
+            } catch (Json\Exception\RuntimeException $e) {
+
+            } catch (Json\Exception\InvalidArgumentException $e3) {
+
+            } catch (Json\Exception\BadMethodCallException $e4) {
+
+            }
         }
 
-        if ($isException === true) {
-            //código em caso de problemas no decode
+        if (is_array($configs) && !empty($configs)) {
+            foreach ($configs as $key => $value) {
+                if (isset($this->configs[$key])) {
+                    $this->configs[$key] = $value;
+                }
+            }
         }
 
         return $this;
     }
 
     /**
-     * @param null $credential
+     * @param null $config
      * @return array|mixed
      */
-    public function getConfigs($credential = null)
+    public function getConfigs($config = null)
     {
-        if ($credential !== null) {
-            return $this->configs[$credential];
+        if ($config !== null) {
+            return $this->configs[$config];
         }
 
         return $this->configs;
@@ -121,8 +121,6 @@ class InHands extends AbstractShipping
     }
 
     /**
-     * Returns shipping's cost
-     *
      * @return array
      */
     public function getShippingDetails()
