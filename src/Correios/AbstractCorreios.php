@@ -102,13 +102,13 @@ class AbstractCorreios extends AbstractShipping
         if (is_string($configs)) {
             try {
                 $configs = Json\Json::decode($configs, 1);
-            } catch (Json\Exception\RecursionException $e2) {
+            } catch (Json\Exception\RecursionException $e) {
 
             } catch (Json\Exception\RuntimeException $e) {
 
-            } catch (Json\Exception\InvalidArgumentException $e3) {
+            } catch (Json\Exception\InvalidArgumentException $e) {
 
-            } catch (Json\Exception\BadMethodCallException $e4) {
+            } catch (Json\Exception\BadMethodCallException $e) {
 
             }
         }
@@ -165,6 +165,7 @@ class AbstractCorreios extends AbstractShipping
                 CURLOPT_TIMEOUT => 60,
             ]
         ]);
+
         $client->setParameterGet($this->configs + $this->options);
 
         try {
