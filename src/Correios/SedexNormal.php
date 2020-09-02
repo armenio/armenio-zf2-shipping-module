@@ -4,27 +4,30 @@
  *
  * @link http://github.com/armenio
  */
- 
+
 namespace Armenio\Shipping\Correios;
-use Armenio\Shipping\Correios\AbstractCorreios;
+
+use Armenio\Shipping\Correios;
+
 /**
-* SedexNormal
-* 
-* Retrieves delivery cost from Correios
-*/
-class SedexNormal extends AbstractCorreios
+ * Class SedexNormal
+ * @package Armenio\Shipping\Correios
+ */
+class SedexNormal extends Correios
 {
-	protected $serviceCode = '04014';
+    /**
+     * @var string
+     */
+    protected $serviceCode = '04014';
 
-	/**
-	* setOptions
-	* 
-	* @param array $options
-	*/
-	public function setOptions($options = [])
-	{
-		$options['servico'] = $this->serviceCode;
+    /**
+     * @param array $options
+     * @return SedexNormal
+     */
+    public function setOptions($options = [])
+    {
+        $options['servico'] = $this->serviceCode;
 
-		return parent::setOptions($options);
-	}   
+        return parent::setOptions($options);
+    }
 }

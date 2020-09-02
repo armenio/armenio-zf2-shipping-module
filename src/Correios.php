@@ -5,19 +5,17 @@
  * @link http://github.com/armenio
  */
 
-namespace Armenio\Shipping\Correios;
+namespace Armenio\Shipping;
 
-use Armenio\Shipping\AbstractShipping;
-use SimpleXMLElement;
 use Zend\Http\Client;
 use Zend\Http\Client\Adapter\Curl;
 use Zend\Json;
 
 /**
- * Class AbstractCorreios
- * @package Armenio\Shipping\Correios
+ * Class Correios
+ * @package Armenio\Shipping
  */
-class AbstractCorreios extends AbstractShipping
+class Correios extends AbstractShipping
 {
     /**
      * @var array
@@ -81,7 +79,7 @@ class AbstractCorreios extends AbstractShipping
     }
 
     /**
-     * @param null $option
+     * @param string|null $option
      * @return array|mixed
      */
     public function getOptions($option = null)
@@ -102,13 +100,7 @@ class AbstractCorreios extends AbstractShipping
         if (is_string($configs)) {
             try {
                 $configs = Json\Json::decode($configs, 1);
-            } catch (Json\Exception\RecursionException $e) {
-
-            } catch (Json\Exception\RuntimeException $e) {
-
-            } catch (Json\Exception\InvalidArgumentException $e) {
-
-            } catch (Json\Exception\BadMethodCallException $e) {
+            } catch (\Exception $e) {
 
             }
         }
@@ -125,7 +117,7 @@ class AbstractCorreios extends AbstractShipping
     }
 
     /**
-     * @param null $config
+     * @param string|null $config
      * @return array|mixed
      */
     public function getConfigs($config = null)
@@ -138,7 +130,7 @@ class AbstractCorreios extends AbstractShipping
     }
 
     /**
-     * @param $number
+     * @param string $number
      * @return mixed
      */
     protected function formatNumber($number)
@@ -173,7 +165,7 @@ class AbstractCorreios extends AbstractShipping
 
             $body = $response->getBody();
 
-            $shippingDetails = new SimpleXMLElement($body);
+            $shippingDetails = new \SimpleXMLElement($body);
 
             $service = $shippingDetails->cServico;
 
@@ -188,11 +180,7 @@ class AbstractCorreios extends AbstractShipping
                     'error' => print_r($service->Erro, true),
                 ];
             }
-        } catch (Client\Adapter\Exception\TimeoutException $e) {
-            $result = [
-                'error' => $e->getMessage(),
-            ];
-        } catch (Client\Adapter\Exception\RuntimeException $e) {
+        } catch (\Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
             ];

@@ -52,7 +52,7 @@ class Motoboy extends AbstractShipping
     }
 
     /**
-     * @param null $option
+     * @param string|null $option
      * @return array|mixed
      */
     public function getOptions($option = null)
@@ -72,14 +72,8 @@ class Motoboy extends AbstractShipping
     {
         if (is_string($configs)) {
             try {
-                $configs = Json\Json::decode($configs, 1);
-            } catch (Json\Exception\RecursionException $e) {
-
-            } catch (Json\Exception\RuntimeException $e) {
-
-            } catch (Json\Exception\InvalidArgumentException $e) {
-
-            } catch (Json\Exception\BadMethodCallException $e) {
+                $configs = Json\Json::decode($configs, true);
+            } catch (\Exception $e) {
 
             }
         }
@@ -96,7 +90,7 @@ class Motoboy extends AbstractShipping
     }
 
     /**
-     * @param null $config
+     * @param string|null $config
      * @return array|mixed
      */
     public function getConfigs($config = null)
@@ -109,7 +103,7 @@ class Motoboy extends AbstractShipping
     }
 
     /**
-     * @param $number
+     * @param string $number
      * @return mixed
      */
     protected function formatNumber($number)

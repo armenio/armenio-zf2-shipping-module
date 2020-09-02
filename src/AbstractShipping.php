@@ -4,13 +4,14 @@
  *
  * @link http://github.com/armenio
  */
- 
+
 namespace Armenio\Shipping;
 
 /**
-* AbstractShipping
-*/
+ * Class AbstractShipping
+ * @package Armenio\Shipping
+ */
 class AbstractShipping
 {
-	// ...
+    // ...
 }
