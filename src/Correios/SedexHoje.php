@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Rafael Armenio <rafael.armenio@gmail.com>
  *
@@ -11,6 +12,7 @@ use Armenio\Shipping\Correios;
 
 /**
  * Class SedexHoje
+ *
  * @package Armenio\Shipping\Correios
  */
 class SedexHoje extends Correios
@@ -22,6 +24,7 @@ class SedexHoje extends Correios
 
     /**
      * @param array $options
+     *
      * @return SedexHoje
      */
     public function setOptions($options = [])

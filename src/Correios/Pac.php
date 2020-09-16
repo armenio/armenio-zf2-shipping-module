@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Rafael Armenio <rafael.armenio@gmail.com>
  *
@@ -11,6 +12,7 @@ use Armenio\Shipping\Correios;
 
 /**
  * Class Pac
+ *
  * @package Armenio\Shipping\Correios
  */
 class Pac extends Correios
@@ -22,6 +24,7 @@ class Pac extends Correios
 
     /**
      * @param array $options
+     *
      * @return Pac
      */
     public function setOptions($options = [])

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Rafael Armenio <rafael.armenio@gmail.com>
  *
@@ -7,10 +8,12 @@
 
 namespace Armenio\Shipping;
 
+use Exception;
 use Zend\Json;
 
 /**
  * Class InHands
+ *
  * @package Armenio\Shipping
  */
 class InHands extends AbstractShipping
@@ -36,11 +39,12 @@ class InHands extends AbstractShipping
 
     /**
      * @param array $options
+     *
      * @return $this
      */
     public function setOptions($options = [])
     {
-        if (is_array($options) && !empty($options)) {
+        if (is_array($options) && ! empty($options)) {
             foreach ($options as $optionKey => $optionValue) {
                 if (isset($this->options[$optionKey])) {
                     $this->options[$optionKey] = $optionValue;
@@ -53,6 +57,7 @@ class InHands extends AbstractShipping
 
     /**
      * @param string|null $option
+     *
      * @return array|mixed
      */
     public function getOptions($option = null)
@@ -66,6 +71,7 @@ class InHands extends AbstractShipping
 
     /**
      * @param string|array $configs
+     *
      * @return $this
      */
     public function setConfigs($configs)
@@ -73,12 +79,11 @@ class InHands extends AbstractShipping
         if (is_string($configs)) {
             try {
                 $configs = Json\Json::decode($configs, true);
-            } catch (\Exception $e) {
-
+            } catch (Exception $e) {
             }
         }
 
-        if (is_array($configs) && !empty($configs)) {
+        if (is_array($configs) && ! empty($configs)) {
             foreach ($configs as $key => $value) {
                 if (isset($this->configs[$key])) {
                     $this->configs[$key] = $value;
@@ -91,6 +96,7 @@ class InHands extends AbstractShipping
 
     /**
      * @param string|null $config
+     *
      * @return array|mixed
      */
     public function getConfigs($config = null)
@@ -104,6 +110,7 @@ class InHands extends AbstractShipping
 
     /**
      * @param string $number
+     *
      * @return mixed
      */
     protected function formatNumber($number)

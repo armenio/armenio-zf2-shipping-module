@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Rafael Armenio <rafael.armenio@gmail.com>
  *
@@ -7,12 +8,15 @@
 
 namespace Armenio\Shipping;
 
+use Exception;
+use SimpleXMLElement;
 use Zend\Http\Client;
 use Zend\Http\Client\Adapter\Curl;
 use Zend\Json;
 
 /**
  * Class Correios
+ *
  * @package Armenio\Shipping
  */
 class Correios extends AbstractShipping
@@ -61,11 +65,12 @@ class Correios extends AbstractShipping
 
     /**
      * @param array $options
+     *
      * @return $this
      */
     public function setOptions($options = [])
     {
-        if (is_array($options) && !empty($options)) {
+        if (is_array($options) && ! empty($options)) {
             foreach ($options as $optionKey => $optionValue) {
                 if (isset($this->params[$optionKey])) {
                     if (isset($this->options[$this->params[$optionKey]])) {
@@ -80,6 +85,7 @@ class Correios extends AbstractShipping
 
     /**
      * @param string|null $option
+     *
      * @return array|mixed
      */
     public function getOptions($option = null)
@@ -93,6 +99,7 @@ class Correios extends AbstractShipping
 
     /**
      * @param string|array $configs
+     *
      * @return $this
      */
     public function setConfigs($configs)
@@ -100,12 +107,11 @@ class Correios extends AbstractShipping
         if (is_string($configs)) {
             try {
                 $configs = Json\Json::decode($configs, 1);
-            } catch (\Exception $e) {
-
+            } catch (Exception $e) {
             }
         }
 
-        if (is_array($configs) && !empty($configs)) {
+        if (is_array($configs) && ! empty($configs)) {
             foreach ($configs as $key => $value) {
                 if (isset($this->configs[$key])) {
                     $this->configs[$key] = $value;
@@ -118,6 +124,7 @@ class Correios extends AbstractShipping
 
     /**
      * @param string|null $config
+     *
      * @return array|mixed
      */
     public function getConfigs($config = null)
@@ -131,6 +138,7 @@ class Correios extends AbstractShipping
 
     /**
      * @param string $number
+     *
      * @return mixed
      */
     protected function formatNumber($number)
@@ -150,13 +158,15 @@ class Correios extends AbstractShipping
         $client = new Client($url);
         $client->setAdapter(new Curl());
         $client->setMethod('GET');
-        $client->setOptions([
-            'curloptions' => [
-                CURLOPT_HEADER => false,
-                CURLOPT_CONNECTTIMEOUT => 0,
-                CURLOPT_TIMEOUT => 60,
+        $client->setOptions(
+            [
+                'curloptions' => [
+                    CURLOPT_HEADER => false,
+                    CURLOPT_CONNECTTIMEOUT => 0,
+                    CURLOPT_TIMEOUT => 60,
+                ],
             ]
-        ]);
+        );
 
         $client->setParameterGet($this->configs + $this->options);
 
@@ -165,7 +175,7 @@ class Correios extends AbstractShipping
 
             $body = $response->getBody();
 
-            $shippingDetails = new \SimpleXMLElement($body);
+            $shippingDetails = new SimpleXMLElement($body);
 
             $service = $shippingDetails->cServico;
 
@@ -180,7 +190,7 @@ class Correios extends AbstractShipping
                     'error' => print_r($service->Erro, true),
                 ];
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
             ];

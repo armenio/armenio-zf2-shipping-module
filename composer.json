@@ -1,24 +1,42 @@
 {
-	"name": "armenio/armenio-zf2-shipping-module",
-	"description": "Shipping Module for Zend Framework 2",
-	"type": "library",
-	"keywords": [
-		"shipping",
-		"helper",
-		"zf2",
-		"armenio"
-	],
-	"homepage": "https://github.com/armenio/armenio-zf2-shipping-module",
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Rafael Armênio",
-			"email": "rafael.armenio@gmail.com"
-		}
-	],
-    "autoload": {
-        "psr-4": {
-            "Armenio\\Shipping\\": "src/"
-        }
+  "name": "armenio/armenio-zf2-shipping-module",
+  "description": "Shipping Module for Zend Framework",
+  "type": "library",
+  "keywords": [
+    "shipping",
+    "helper",
+    "zf2",
+    "armenio"
+  ],
+  "homepage": "https://github.com/armenio/armenio-zf2-shipping-module",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Rafael Armênio",
+      "email": "rafael.armenio@gmail.com"
     }
+  ],
+  "require": {
+    "php": "^5.6 || ^7.0",
+    "ext-simplexml": "*",
+    "zendframework/zend-http": "^2.7",
+    "zendframework/zend-json": "^3.0"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.5.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Armenio\\Shipping\\": "src/"
+    }
+  },
+  "scripts": {
+    "cs-check": "phpcs",
+    "cs-fix": "phpcbf"
+  },
+  "config": {
+    "platform": {
+      "php": "7.1"
+    }
+  }
 }

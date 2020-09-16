@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Rafael Armenio <rafael.armenio@gmail.com>
  *
@@ -9,6 +10,7 @@ namespace Armenio\Shipping;
 
 /**
  * Class AbstractShipping
+ *
  * @package Armenio\Shipping
  */
 class AbstractShipping
