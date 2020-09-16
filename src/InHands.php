@@ -8,7 +8,6 @@
 
 namespace Armenio\Shipping;
 
-use Exception;
 use Zend\Json;
 
 /**
@@ -79,7 +78,7 @@ class InHands extends AbstractShipping
         if (is_string($configs)) {
             try {
                 $configs = Json\Json::decode($configs, true);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
             }
         }
 

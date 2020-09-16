@@ -8,8 +8,6 @@
 
 namespace Armenio\Shipping;
 
-use Exception;
-use SimpleXMLElement;
 use Zend\Http\Client;
 use Zend\Http\Client\Adapter\Curl;
 use Zend\Json;
@@ -107,7 +105,7 @@ class Correios extends AbstractShipping
         if (is_string($configs)) {
             try {
                 $configs = Json\Json::decode($configs, 1);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
             }
         }
 
@@ -175,7 +173,7 @@ class Correios extends AbstractShipping
 
             $body = $response->getBody();
 
-            $shippingDetails = new SimpleXMLElement($body);
+            $shippingDetails = new \SimpleXMLElement($body);
 
             $service = $shippingDetails->cServico;
 
@@ -190,7 +188,7 @@ class Correios extends AbstractShipping
                     'error' => print_r($service->Erro, true),
                 ];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = [
                 'error' => $e->getMessage(),
             ];
