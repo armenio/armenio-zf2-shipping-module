@@ -29,7 +29,9 @@ class SedexNormal extends Correios
      */
     public function setOptions($options = [])
     {
-        $options['servico'] = $this->serviceCode;
+        if (empty($options['servico'])) {
+            $options['servico'] = $this->serviceCode;
+        }
 
         return parent::setOptions($options);
     }

@@ -23,7 +23,6 @@ class Correios extends AbstractShipping
      * @var array
      */
     protected $options = [
-        'nCdServico' => '',
         'sCepOrigem' => '',
         'sCepDestino' => '',
         'nVlPeso' => '',
@@ -59,6 +58,7 @@ class Correios extends AbstractShipping
     protected $configs = [
         'nCdEmpresa' => '',
         'sDsSenha' => '',
+        'nCdServico' => '',
     ];
 
     /**
@@ -110,9 +110,11 @@ class Correios extends AbstractShipping
         }
 
         if (is_array($configs) && ! empty($configs)) {
-            foreach ($configs as $key => $value) {
-                if (isset($this->configs[$key])) {
-                    $this->configs[$key] = $value;
+            foreach ($configs as $optionKey => $optionValue) {
+                if (isset($this->params[$optionKey])) {
+                    if (isset($this->configs[$this->params[$optionKey]])) {
+                        $this->configs[$this->params[$optionKey]] = $optionValue;
+                    }
                 }
             }
         }
