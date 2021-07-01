@@ -181,7 +181,7 @@ class Correios extends AbstractShipping
 
             if (empty($service->Erro)) {
                 $result = [
-                    'service_code' => $this->options[$this->params['servico']],
+                    'service_code' => $this->configs[$this->params['servico']],
                     'shipping_price' => $this->formatNumber((string)$service->Valor),
                     'shipping_time' => (int)$service->PrazoEntrega,
                 ];
