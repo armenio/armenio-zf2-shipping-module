@@ -33,7 +33,7 @@ class InHands extends AbstractShipping
      * @var array
      */
     protected $configs = [
-
+        'config' => [],
     ];
 
     /**
@@ -126,10 +126,17 @@ class InHands extends AbstractShipping
     public function getShippingDetails()
     {
 
-        $result = [
-            'shipping_price' => $this->formatNumber('0'),
-            'shipping_time' => 0,
-        ];
+        $result = [];
+
+        if (
+            $this->options['destino'] >= $this->configs['config']['min']
+            && $this->options['destino'] <= $this->configs['config']['max']
+        ) {
+            $result = [
+                'shipping_price' => $this->formatNumber('0'),
+                'shipping_time' => 0,
+            ];
+        }
 
         return $result;
     }
